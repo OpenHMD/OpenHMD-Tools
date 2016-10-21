@@ -34,19 +34,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	printf("num devices: %d\n\n", num_devices);
-
-	// Print device information
-	for(int i = 0; i < num_devices; i++){
-		printf("device %d\n", i);
-		printf("  vendor:  %s\n", ohmd_list_gets(ctx, i, OHMD_VENDOR));
-		printf("  product: %s\n", ohmd_list_gets(ctx, i, OHMD_PRODUCT));
-		printf("  path:    %s\n\n", ohmd_list_gets(ctx, i, OHMD_PATH));
-	}
-
 	// Open default device (0)
 	ohmd_device* hmd = ohmd_list_open_device(ctx, 0);
-	
+
 	if(!hmd){
 		printf("failed to open device: %s\n", ohmd_ctx_get_error(ctx));
 		return -1;

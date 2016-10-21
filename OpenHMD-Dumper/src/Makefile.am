@@ -12,29 +12,17 @@ libopenhmd_la_SOURCES = \
 	fusion.c
 
 libopenhmd_la_LDFLAGS = -no-undefined -version-info 0:0:0
-libopenhmd_la_CPPFLAGS = -fPIC -I$(top_srcdir)/include -Wall 
+libopenhmd_la_CPPFLAGS = -fPIC -I$(top_srcdir)/include -Wall
 
 if BUILD_DRIVER_OCULUS_RIFT
 
 libopenhmd_la_SOURCES += \
-	drv_oculus_rift/rift.c \
-	drv_oculus_rift/packet.c
+	drv_dumper/dumper.c \
+	drv_dumper/packet.c
 
-libopenhmd_la_CPPFLAGS += $(hidapi_CFLAGS) -DDRIVER_OCULUS_RIFT
+libopenhmd_la_CPPFLAGS += $(hidapi_CFLAGS) -DDRIVER_DUMPER
 libopenhmd_la_LDFLAGS += $(hidapi_LIBS)
 
-endif
-
-if BUILD_DRIVER_EXTERNAL
-
-libopenhmd_la_SOURCES += \
-	drv_external/external.c
-endif
-
-if BUILD_DRIVER_ANDROID
-
-libopenhmd_la_SOURCES += \
-	drv_android/android.c
 endif
 
 libopenhmd_la_LDFLAGS += $(EXTRA_LD_FLAGS)

@@ -326,6 +326,7 @@ cleanup:
 	return NULL;
 }
 
+#include "stdio.h"
 static void get_device_list(ohmd_driver* driver, ohmd_device_list* list)
 {
 	// enumerate HID devices and add any dumpers found to the device list
@@ -337,18 +338,7 @@ static void get_device_list(ohmd_driver* driver, ohmd_device_list* list)
 		continue;
 
 	while (cur_dev) {
-		if(rd[i].iface == -1 || cur_dev->interface_number == rd[i].iface){
-			ohmd_device_desc* desc = &list->devices[list->num_devices++];
-
-			strcpy(desc->driver, "OpenHMD dumper Driver");
-			strcpy(desc->vendor, "OpenHMD");
-			strcpy(desc->product, rd[i].name);
-
-			desc->revision = rd[i].rev;
-
-			strcpy(desc->path, cur_dev->path);
-
-			desc->driver_ptr = driver;
+			printf("found path %s\n", cur_dev->path);
 		}
 
 		cur_dev = cur_dev->next;

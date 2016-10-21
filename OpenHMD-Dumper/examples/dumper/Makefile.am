@@ -1,4 +1,4 @@
-bin_PROGRAMS = simple
+bin_PROGRAMS = dumper
 AM_CPPFLAGS = -Wall -I$(top_srcdir)/include -DOHMD_STATIC
 simple_SOURCES = simple.c
 simple_LDADD = $(top_builddir)/src/libopenhmd.la -lm
