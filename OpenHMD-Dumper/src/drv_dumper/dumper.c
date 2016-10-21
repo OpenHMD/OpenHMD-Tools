@@ -369,8 +369,8 @@ static void set_device(ohmd_driver* driver, ohmd_device_list* list, int device)
 			ohmd_device_desc* desc = &list->devices[list->num_devices++];
 
 			strcpy(desc->driver, "Dumper Driver");
-			char* manstring[64];
-			char* prodstring[64];
+			char manstring[64];
+			char prodstring[64];
 			sprintf(manstring, "%ls", cur_dev->manufacturer_string);
 			sprintf(prodstring, "%ls", cur_dev->product_string);
 			strcpy(desc->vendor, manstring);
