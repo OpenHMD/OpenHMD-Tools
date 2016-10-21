@@ -29,12 +29,12 @@ This can then be used to decode what the packet contains using i.e gnuplot.
 
 ## Compiling
 We currently suggest building with autotools using the same process as the normal OpenHMD driver.
-DON'T install this as it will overwrite any normal installed openhmd driver, this is ment to run from the compiled folder.
+_DON'T install this driver_, as it will overwrite any normal installed OpenHMD driver, this is ment to run from the compiled folder.
 
 Using make:
 
-    ./autogen.sh # (if you're building from the git repository)
-    ./configure [--enable-openglexample]
+    ./autogen.sh
+    ./configure
     make
 
 ## Running:
