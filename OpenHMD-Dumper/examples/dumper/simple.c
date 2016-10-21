@@ -34,6 +34,20 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	int in;
+	printf("Enter the device you want OpenHMD to try opening: ");
+	scanf("%d",&in);
+	num_devices = ohmd_set_device(ctx, in);
+
+	printf("num devices: %d\n\n", num_devices);
+
+	// Print device information
+	for(int i = 0; i < num_devices; i++){
+		printf("device %d\n", i);
+		printf("  vendor:  %s\n", ohmd_list_gets(ctx, i, OHMD_VENDOR));
+		printf("  product: %s\n", ohmd_list_gets(ctx, i, OHMD_PRODUCT));
+		printf("  path:    %s\n\n", ohmd_list_gets(ctx, i, OHMD_PATH));
+	}
 	// Open default device (0)
 	ohmd_device* hmd = ohmd_list_open_device(ctx, 0);
 
@@ -68,11 +82,11 @@ int main(int argc, char** argv)
 		ohmd_device_setf(hmd, OHMD_ROTATION_QUAT, zero);
 		ohmd_device_setf(hmd, OHMD_POSITION_VECTOR, zero);
 
-		print_infof(hmd, "rotation quat:", 4, OHMD_ROTATION_QUAT);
+		//print_infof(hmd, "rotation quat:", 4, OHMD_ROTATION_QUAT);
 		ohmd_sleep(.01);
 	}
 
 	ohmd_ctx_destroy(ctx);
-	
+
 	return 0;
 }

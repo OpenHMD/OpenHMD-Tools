@@ -224,6 +224,15 @@ OHMD_APIENTRYDLL int OHMD_APIENTRY ohmd_ctx_probe(ohmd_context* ctx);
  * @param type The type of data to fetch. One of OHMD_VENDOR, OHMD_PRODUCT and OHMD_PATH.
  * @return a string with a human readable device name.
  **/
+
+ OHMD_APIENTRYDLL int OHMD_APIENTRY ohmd_set_device(ohmd_context* ctx, int device);
+
+/**
+ * Don't even ask
+ *
+ * Dumping hacking shizzle, never merge upstream
+ **/
+
 OHMD_APIENTRYDLL const char* OHMD_APIENTRY ohmd_list_gets(ohmd_context* ctx, int index, ohmd_string_value type);
 
 /**

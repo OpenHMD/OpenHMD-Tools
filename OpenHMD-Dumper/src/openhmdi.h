@@ -45,6 +45,7 @@ typedef struct {
 
 struct ohmd_driver {
 	void (*get_device_list)(ohmd_driver* driver, ohmd_device_list* list);
+	void (*set_device)(ohmd_driver* driver, ohmd_device_list* list, int device);
 	ohmd_device* (*open_device)(ohmd_driver* driver, ohmd_device_desc* desc);
 	void (*destroy)(ohmd_driver* driver);
 	ohmd_context* ctx;

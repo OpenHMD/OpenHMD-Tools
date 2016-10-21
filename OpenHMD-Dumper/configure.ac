@@ -49,4 +49,4 @@ AC_PROG_CC_C99
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile examples/dumper/Makefile])
-AC_OUTPUT 
+AC_OUTPUT

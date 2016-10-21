@@ -333,18 +333,59 @@ static void get_device_list(ohmd_driver* driver, ohmd_device_list* list)
 
 	struct hid_device_info* devs = hid_enumerate(0, 0);
 	struct hid_device_info* cur_dev = devs;
+	int deviceamount = 0;
 
-	if(devs == NULL)
-		continue;
+	while (cur_dev)
+	{
+		deviceamount++;
+		printf("%i - Found path (Device::Bus) %s - Device %ls, %ls\n", deviceamount,
+				cur_dev->path, cur_dev->manufacturer_string, cur_dev->product_string);
+		cur_dev = cur_dev->next;
+	}
+	cur_dev = devs;
+
+	char devicelist[deviceamount][64]; //64 should be enough
+	deviceamount = 0;
 
 	while (cur_dev) {
-			printf("found path %s\n", cur_dev->path);
+		strcpy(devicelist[deviceamount], cur_dev->path);
+
+		cur_dev = cur_dev->next;
+		deviceamount++;
+	}
+
+	hid_free_enumeration(devs);
+}
+
+static void set_device(ohmd_driver* driver, ohmd_device_list* list, int device)
+{
+	struct hid_device_info* devs = hid_enumerate(0, 0);
+	struct hid_device_info* cur_dev = devs;
+	int deviceamount = 0;
+
+	while (cur_dev) {
+		deviceamount++;
+		if(deviceamount == device){
+			ohmd_device_desc* desc = &list->devices[list->num_devices++];
+
+			strcpy(desc->driver, "Dumper Driver");
+			char* manstring[64];
+			char* prodstring[64];
+			sprintf(manstring, "%ls", cur_dev->manufacturer_string);
+			sprintf(prodstring, "%ls", cur_dev->product_string);
+			strcpy(desc->vendor, manstring);
+			strcpy(desc->product, prodstring);
+
+			desc->revision = 1;
+			strcpy(desc->path, cur_dev->path);
+
+			desc->driver_ptr = driver;
 		}
 
 		cur_dev = cur_dev->next;
+	}
 
 		hid_free_enumeration(devs);
-	}
 }
 
 static void destroy_driver(ohmd_driver* drv)
@@ -361,6 +402,7 @@ ohmd_driver* ohmd_create_dumper_drv(ohmd_context* ctx)
 		return NULL;
 
 	drv->get_device_list = get_device_list;
+	drv->set_device = set_device;
 	drv->open_device = open_device;
 	drv->destroy = destroy_driver;
 	drv->ctx = ctx;

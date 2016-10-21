@@ -23,17 +23,10 @@ ohmd_context* OHMD_APIENTRY ohmd_ctx_create(void)
 		return NULL;
 	}
 
-#if DRIVER_OCULUS_RIFT
-	ctx->drivers[ctx->num_drivers++] = ohmd_create_oculus_rift_drv(ctx);
+#if DRIVER_DUMPER
+	ctx->drivers[ctx->num_drivers++] = ohmd_create_dumper_drv(ctx);
 #endif
 
-#if DRIVER_EXTERNAL
-	ctx->drivers[ctx->num_drivers++] = ohmd_create_external_drv(ctx);
-#endif
-
-#if DRIVER_ANDROID
-	ctx->drivers[ctx->num_drivers++] = ohmd_create_android_drv(ctx);
-#endif
 	// add dummy driver last to make it the lowest priority
 	ctx->drivers[ctx->num_drivers++] = ohmd_create_dummy_drv(ctx);
 
@@ -87,6 +80,14 @@ int OHMD_APIENTRY ohmd_ctx_probe(ohmd_context* ctx)
 	for(int i = 0; i < ctx->num_drivers; i++){
 		ctx->drivers[i]->get_device_list(ctx->drivers[i], &ctx->list);
 	}
+
+	return ctx->list.num_devices;
+}
+
+int OHMD_APIENTRY ohmd_set_device(ohmd_context* ctx, int device)
+{
+	memset(&ctx->list, 0, sizeof(ohmd_device_list));
+	ctx->drivers[0]->set_device(ctx->drivers[0], &ctx->list, device);
 
 	return ctx->list.num_devices;
 }

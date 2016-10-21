@@ -5,10 +5,10 @@
  * Distributed under the Boost 1.0 licence, see LICENSE for full text.
  */
 
-/* Oculus Rift Driver - Packet Decoding and Utilities */
+/* Oculus dumper Driver - Packet Decoding and Utilities */
 
 #include <stdio.h>
-#include "rift.h"
+#include "dumper.h"
 
 #define SKIP_CMD (buffer++)
 #define READ8 *(buffer++);
@@ -164,7 +164,7 @@ bool decode_tracker_sensor_msg_dk2(pkt_tracker_sensor* msg, const unsigned char*
 }
 
 // TODO do we need to consider HMD vs sensor "centric" values
-void vec3f_from_rift_vec(const int32_t* smp, vec3f* out_vec)
+void vec3f_from_dumper_vec(const int32_t* smp, vec3f* out_vec)
 {
 	out_vec->x = (float)smp[0] * 0.0001f;
 	out_vec->y = (float)smp[1] * 0.0001f;
@@ -173,7 +173,7 @@ void vec3f_from_rift_vec(const int32_t* smp, vec3f* out_vec)
 
 int encode_sensor_config(unsigned char* buffer, const pkt_sensor_config* config)
 {
-	WRITE8(RIFT_CMD_SENSOR_CONFIG);
+	WRITE8(dumper_CMD_SENSOR_CONFIG);
 	WRITE16(config->command_id);
 	WRITE8(config->flags);
 	WRITE8(config->packet_interval);
@@ -183,7 +183,7 @@ int encode_sensor_config(unsigned char* buffer, const pkt_sensor_config* config)
 
 int encode_keep_alive(unsigned char* buffer, const pkt_keep_alive* keep_alive)
 {
-	WRITE8(RIFT_CMD_KEEP_ALIVE);
+	WRITE8(dumper_CMD_KEEP_ALIVE);
 	WRITE16(keep_alive->command_id);
 	WRITE16(keep_alive->keep_alive_interval);
 	return 5; // keep alive packet size
@@ -193,7 +193,7 @@ int encode_enable_components(unsigned char* buffer, bool display, bool audio)
 {
 	uint8_t flags = 0;
 
-	WRITE8(RIFT_CMD_ENABLE_COMPONENTS);
+	WRITE8(dumper_CMD_ENABLE_COMPONENTS);
 	WRITE16(0); // last command ID
 
 	if (display)
@@ -240,13 +240,13 @@ void dump_packet_sensor_config(const pkt_sensor_config* config)
 	LOGD("sensor config");
 	LOGD("  command id:          %u", config->command_id);
 	LOGD("  flags:               %02x", config->flags);
-	LOGD("    raw mode:                  %d", !!(config->flags & RIFT_SCF_RAW_MODE));
-	LOGD("    calibration test:          %d", !!(config->flags & RIFT_SCF_CALIBRATION_TEST));
-	LOGD("    use calibration:           %d", !!(config->flags & RIFT_SCF_USE_CALIBRATION));
-	LOGD("    auto calibration:          %d", !!(config->flags & RIFT_SCF_AUTO_CALIBRATION));
-	LOGD("    motion keep alive:         %d", !!(config->flags & RIFT_SCF_MOTION_KEEP_ALIVE));
-	LOGD("    motion command keep alive: %d", !!(config->flags & RIFT_SCF_COMMAND_KEEP_ALIVE));
-	LOGD("    sensor coordinates:        %d", !!(config->flags & RIFT_SCF_SENSOR_COORDINATES));
+	LOGD("    raw mode:                  %d", !!(config->flags & dumper_SCF_RAW_MODE));
+	LOGD("    calibration test:          %d", !!(config->flags & dumper_SCF_CALIBRATION_TEST));
+	LOGD("    use calibration:           %d", !!(config->flags & dumper_SCF_USE_CALIBRATION));
+	LOGD("    auto calibration:          %d", !!(config->flags & dumper_SCF_AUTO_CALIBRATION));
+	LOGD("    motion keep alive:         %d", !!(config->flags & dumper_SCF_MOTION_KEEP_ALIVE));
+	LOGD("    motion command keep alive: %d", !!(config->flags & dumper_SCF_COMMAND_KEEP_ALIVE));
+	LOGD("    sensor coordinates:        %d", !!(config->flags & dumper_SCF_SENSOR_COORDINATES));
 	LOGD("  packet interval:     %u", config->packet_interval);
 	LOGD("  keep alive interval: %u", config->keep_alive_interval);
 }
