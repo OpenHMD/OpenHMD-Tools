@@ -96,8 +96,36 @@ static void set_coordinate_frame(dumper_priv* priv, dumper_coordinate_frame coor
 	}
 }
 
+void printBits(size_t const size, void const * const ptr)
+{
+    unsigned char *b = (unsigned char*) ptr;
+    unsigned char byte;
+    int i, j;
+
+    for (i=size-1;i>=0;i--)
+    {
+        for (j=7;j>=0;j--)
+        {
+            byte = (b[i] >> j) & 1;
+            printf("%u", byte);
+        }
+    }
+    puts("");
+}
+
 static void handle_tracker_sensor_msg(dumper_priv* priv, unsigned char* buffer, int size)
 {
+	//printBits(size, buffer);
+	for (int i = 0; i < size; i++)
+	{
+		if (i+1 < size)
+			printf("%02X:", buffer[i]);
+		else
+			printf("%02X", buffer[i]);
+	}
+	printf("\n");
+
+	/*
 	if (buffer[0] == dumper_IRQ_SENSORS
 	  && !decode_tracker_sensor_msg(&priv->sensor, buffer, size)){
 		LOGE("couldn't decode tracker sensor message");
@@ -127,7 +155,7 @@ static void handle_tracker_sensor_msg(dumper_priv* priv, unsigned char* buffer, 
 
 		// reset dt to tick_len for the last samples if there were more than one sample
 		dt = TICK_LEN;
-	}
+	}*/
 }
 
 static void update_device(ohmd_device* device)
@@ -255,7 +283,7 @@ static ohmd_device* open_device(ohmd_driver* driver, ohmd_device_desc* desc)
 	// Read and decode display information
 	size = get_feature_report(priv, dumper_CMD_DISPLAY_INFO, buf);
 	decode_sensor_display_info(&priv->display_info, buf, size);
-	dump_packet_sensor_display_info(&priv->display_info);
+	//dump_packet_sensor_display_info(&priv->display_info);
 
 	// Read and decode the sensor config
 	size = get_feature_report(priv, dumper_CMD_SENSOR_CONFIG, buf);

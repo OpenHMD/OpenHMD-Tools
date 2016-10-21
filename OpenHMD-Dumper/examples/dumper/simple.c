@@ -57,6 +57,7 @@ int main(int argc, char** argv)
 	}
 
 	// Print hardware information for the opened device
+	/*
 	int ivals[2];
 	ohmd_device_geti(hmd, OHMD_SCREEN_HORIZONTAL_RESOLUTION, ivals);
 	ohmd_device_geti(hmd, OHMD_SCREEN_VERTICAL_RESOLUTION, ivals + 1);
@@ -72,7 +73,7 @@ int main(int argc, char** argv)
 	print_infof(hmd, "right eye aspect:", 1, OHMD_RIGHT_EYE_ASPECT_RATIO);
 	print_infof(hmd, "distortion k:",     6, OHMD_DISTORTION_K);
 
-	printf("\n");
+	printf("\n");*/
 
 	// Ask for n rotation quaternions
 	for(int i = 0; i < 10000; i++){
