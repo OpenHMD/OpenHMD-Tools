@@ -5,10 +5,12 @@
  * Distributed under the Boost 1.0 licence, see LICENSE for full text.
  */
 
-/* Simple Test */
+/* OpenHMD - Dumper */
 
 #include <openhmd.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 void ohmd_sleep(double);
 
@@ -25,6 +27,34 @@ void print_infof(ohmd_device* hmd, const char* name, int len, ohmd_float_value v
 
 int main(int argc, char** argv)
 {
+	int devicenumber = -1;
+	if ( argc > 1 ) // There are Command line parameters
+	{
+		for(int i = 1; i < argc; i++)
+		{
+			char* cmdline = argv[i];
+
+			if (strcmp(cmdline, "--device") == 0)
+			{
+				if ( i < argc-1 ) // If there's at least another argument left
+				{
+					i++;
+					devicenumber = atoi(argv[i]);
+				}
+			}
+			else
+			{
+				printf("|--------------------------------------------------------------------------|\n");
+				printf("| OpenHMD-Dumper Help                                                      |\n");
+				printf("|--------------------------------------------------------------------------|\n");
+				printf("| Running without commandline arguments will prompt for device information |\n");
+				printf("| Alternatively you can use the following to skip some steps               |\n");
+				printf("|--------------------------------------------------------------------------|\n");
+				printf("| --device 1-9           | Picks a device between 1 and 9                  |\n");
+				printf("|--------------------------------------------------------------------------|\n");
+			}
+		}
+	}
 	ohmd_context* ctx = ohmd_ctx_create();
 
 	// Probe for devices
@@ -34,12 +64,17 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	int in;
-	printf("Enter the device you want OpenHMD to try opening: ");
-	scanf("%d",&in);
-	num_devices = ohmd_set_device(ctx, in);
-
-	printf("num devices: %d\n\n", num_devices);
+	if (devicenumber < 0) //no commandline device
+	{
+		int in;
+		printf("Enter the device you want OpenHMD to try opening: ");
+		scanf("%d",&in);
+		num_devices = ohmd_set_device(ctx, in);
+	}
+	else //commandline device
+	{
+		num_devices = ohmd_set_device(ctx, devicenumber);
+	}
 
 	// Print device information
 	for(int i = 0; i < num_devices; i++){
