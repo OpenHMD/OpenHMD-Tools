@@ -27,9 +27,9 @@ structarray[3] += str(1-float(sys.argv[1])-float(sys.argv[2])-float(sys.argv[3])
 # RGB channel with G as default calibration
 # sin(r_hfov/2)/sin(g_hfov/2)
 # sin(b_hfov/2)/sin(g_hfov/2)
-structarray[4] += str(sin(float(sys.argv[4])/2)/sin(float(sys.argv[5])/2))+"f;"
+structarray[4] += str(sin(radians(float(sys.argv[4])/2))/sin(radians(float(sys.argv[5])/2)))+"f;"
 structarray[5] += "1.000f;"
-structarray[6] += str(sin(float(sys.argv[6])/2)/sin(float(sys.argv[5])/2))+"f;"
+structarray[6] += str(sin(radians(float(sys.argv[6])/2))/sin(radians(float(sys.argv[5])/2)))+"f;"
 
 print("Output struct for OpenHMD Universal Distotion")
 print("---------------------------------------------\n")
