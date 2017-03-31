@@ -19,17 +19,17 @@ structarray = 	[	prefix_string+"universal_distortion_k[0] = ",
 
 # ABC channel and calculated D
 # d=(1-a-b-c)
-structarray[0] += (sys.argv[1]+";")
-structarray[1] += (sys.argv[2]+";")
-structarray[2] += (sys.argv[3]+";")
-structarray[3] += str(1-float(sys.argv[1])-float(sys.argv[2])-float(sys.argv[3]))+";"
+structarray[0] += (sys.argv[1]+"f;")
+structarray[1] += (sys.argv[2]+"f;")
+structarray[2] += (sys.argv[3]+"f;")
+structarray[3] += str(1-float(sys.argv[1])-float(sys.argv[2])-float(sys.argv[3]))+"f;"
 
 # RGB channel with G as default calibration
 # sin(r_hfov/2)/sin(g_hfov/2)
 # sin(b_hfov/2)/sin(g_hfov/2)
-structarray[4] += str(sin(float(sys.argv[4])/2)/sin(float(sys.argv[5])/2))+";"
-structarray[5] += "1.000f"
-structarray[6] += str(sin(float(sys.argv[6])/2)/sin(float(sys.argv[5])/2))+";"
+structarray[4] += str(sin(float(sys.argv[4])/2)/sin(float(sys.argv[5])/2))+"f;"
+structarray[5] += "1.000f;"
+structarray[6] += str(sin(float(sys.argv[6])/2)/sin(float(sys.argv[5])/2))+"f;"
 
 print("Output struct for OpenHMD Universal Distotion")
 print("---------------------------------------------\n")
